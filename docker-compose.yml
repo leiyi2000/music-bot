@@ -1,0 +1,12 @@
+services:
+  music-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: music-bot:${IMAGE_TAG:-latest}
+    restart: always
+    environment:
+      - NAPCAT_API=${NAPCAT_API}
+      - LOG_LEVEL=${LOG_LEVEL:-WARNING}
+    ports:
+      - "${PORT:-8000}:8000"
