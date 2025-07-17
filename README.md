@@ -59,7 +59,7 @@ uv sync
 4. 运行服务
 
 ```bash
-uv run granian --access-log --host 0.0.0.0 --interface asgi bot.main:app
+uv run --env-file .env granian --access-log --host 0.0.0.0 --interface asgi bot.main:app
 ```
 
 ### Docker部署
@@ -75,7 +75,7 @@ cp env.example .env
 2. 构建并启动容器
 
 ```bash
-docker-compose up -d
+docker-compose up --env-file .env -d
 ```
 
 ## 使用方法

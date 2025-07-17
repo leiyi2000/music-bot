@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import traceback
 
@@ -18,7 +19,7 @@ log = logging.getLogger(__name__)
 async def receive(message: dict = Body()):
     try:
         receive: ReceiveMessage = ReceiveMessage.model_validate(message)
-        await command.put(receive)
+        await asyncio.wait_for(command.put(receive), timeout=1)
     except ValueError:
         pass
     except Exception:

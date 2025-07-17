@@ -96,12 +96,9 @@ class Command:
         await self.client.__aexit__(exc_type, exc_value, traceback)
 
     async def arun(self):
-        async with asyncio.TaskGroup() as tg:
-            while not self._stop.is_set():
-                receive: ReceiveMessage = await self.queue.get()
-                log.info(f"receive: {receive.model_dump_json(indent=4)}")
-                if route := await self.match(receive):
-                    task = route.func(self.client, receive, **route.func_kwargs)
-                    tg.create_task(task)
-                if tg._errors:
-                    tg._errors.clear()
+        while not self._stop.is_set():
+            receive: ReceiveMessage = await self.queue.get()
+            log.info(f"receive: {receive.model_dump_json(indent=2)}")
+            if route := await self.match(receive):
+                task = route.func(self.client, receive, **route.func_kwargs)
+                asyncio.create_task(task)
